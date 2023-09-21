@@ -1,8 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { Navbar } from "../components";
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaTwitter,
+  FaFacebook,
+  FaLinkedin,
+  FaSpinner,
+} from "react-icons/fa";
+import ConfirmContact from "./ConfirmContact";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    first_name: "",
+    email: "",
+    topic: "",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Make a POST request to your server
+      const response = await axios.post(
+        "https://backend.getlinked.ai/hackathon/contact-form",
+        formData
+      );
+
+      // Handle success (you can show a success message or redirect the user)
+      console.log("Form submitted successfully!", response.data);
+
+      // Clear the form
+      setFormData({
+        first_name: "",
+        email: "",
+        topic: "",
+        message: "",
+      });
+      setIsModalOpen(true);
+    } catch (error) {
+      // Handle error (you can display an error message)
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    // Close the modal
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <Navbar />
@@ -53,14 +114,17 @@ const Contact = () => {
           <p className="md:hidden block text-white">
             Email us below to any question related to our event
           </p>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <input
                 type="text"
                 id="name"
-                name="name"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleInputChange}
                 placeholder="First Name"
-                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34] "
+                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34]  text-white"
+                required
               />
             </div>
             <div className="mb-4">
@@ -68,8 +132,10 @@ const Contact = () => {
                 type="text"
                 id="topic"
                 name="topic"
+                value={formData.topic}
+                onChange={handleInputChange}
                 placeholder="Topic"
-                className="md:hidden block w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34] "
+                className="md:hidden block w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34]  text-white capitalize"
               />
             </div>
             <div className="mb-4">
@@ -77,17 +143,23 @@ const Contact = () => {
                 type="email"
                 id="email"
                 name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 placeholder="Mail"
-                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34]"
+                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34] text-white"
+                required
               />
             </div>
             <div className="mb-4">
               <textarea
                 id="message"
                 name="message"
+                value={formData.message}
+                onChange={handleInputChange}
                 placeholder="Message"
                 rows="4"
-                className="w-full border rounded-md px-3 py-2 outline-none resize-none bg-[#231c34]"
+                className="w-full border rounded-md px-3 py-2 outline-none resize-none bg-[#231c34] text-white capitalize"
+                required
               ></textarea>
             </div>
             <div className="text-center">
@@ -118,6 +190,13 @@ const Contact = () => {
           </form>
         </div>
       </div>
+      {isLoading ? (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <FaSpinner size={40} className="animate-spin text-purple text-4xl" />
+        </div>
+      ) : (
+        <>{isModalOpen && <ConfirmContact onClose={closeModal} />}</>
+      )}
     </>
   );
 };

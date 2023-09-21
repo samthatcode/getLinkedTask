@@ -41,7 +41,9 @@ const Footer = () => {
           <p className="text-white text-sm hover:text-purple">Overview</p>
           <p className="text-white text-sm hover:text-purple">Timeline</p>
           <p className="text-white text-sm hover:text-purple">FAQs</p>
-          <p className="text-white text-sm hover:text-purple">Register</p>
+          <Link to="/register">
+            <p className="text-white text-sm hover:text-purple">Register</p>
+          </Link>
           <div className="flex items-center mt-2 text-sm">
             <p className="text-deepPurple mr-3">Follow Us</p>
             <a href="#" className="mr-4 text-white hover:text-purple">

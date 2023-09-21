@@ -1,32 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar } from "../components";
 import registerDesign from "../assets/images/registerDesign.png";
 import LineWalk from "../assets/images/LineWalk.png";
 import personWalk1 from "../assets/images/personWalk1.png";
 import personWalk2 from "../assets/images/personWalk2.png";
 import Confirm from "./Confirm";
+import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    team_name: "",
     email: "",
-    phone: "",
-    topic: "",
-    category: "Select Your Category",
-    groupSize: "Select",
+    phone_number: "",
+    project_topic: "",
+    category: "",
+    group_size: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [categories, setCategories] = useState([]); // State to store categories
+
+  useEffect(() => {
+    // Fetch categories from the backend endpoint
+    axios
+      .get("https://backend.getlinked.ai/hackathon/categories-list")
+      .then((response) => {
+        setCategories(response.data); // Set the fetched categories in state
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form data:", formData);
-    setIsModalOpen(true);
+    setIsLoading(true);
+
+    // Check if the checkbox is checked
+    if (!isChecked) {
+      // Display an error message and prevent form submission
+      alert("Please check the box to agree with the terms and conditions.");
+      return;
+    }
+
+    try {
+      // Make a POST request to the server
+      await axios.post(
+        "https://backend.getlinked.ai/hackathon/registration",
+        formData
+      );
+
+      // Clear the form
+      setFormData({
+        team_name: "",
+        email: "",
+        phone_number: "",
+        project_topic: "",
+        category: "",
+        group_size: "",
+      });
+
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const closeModal = () => {
@@ -66,26 +117,30 @@ const Register = () => {
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row md:space-x-4">
-                  <div className="mb-4 md:w-1/2 text-white">
-                    <label htmlFor="name">Team’s Name</label>
+                  <div className="mb-4 md:w-1/2">
+                    <label htmlFor="name" className="text-white">
+                      Team’s Name
+                    </label>
                     <input
                       type="text"
                       id="name"
-                      name="name"
-                      value={formData.name}
+                      name="team_name"
+                      value={formData.team_name}
                       onChange={handleChange}
                       required
                       placeholder="Enter the name of your group"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
+                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs capitalize"
                     />
                   </div>
-                  <div className="mb-4 md:w-1/2 md:pl-2 text-white">
-                    <label htmlFor="phone">Phone</label>
+                  <div className="mb-4 md:w-1/2 md:pl-2">
+                    <label htmlFor="phone" className="text-white">
+                      Phone
+                    </label>
                     <input
                       type="tel"
                       id="phone"
-                      name="phone"
-                      value={formData.phone}
+                      name="phone_number"
+                      value={formData.phone_number}
                       onChange={handleChange}
                       required
                       placeholder="Enter your phone number"
@@ -94,8 +149,10 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="flex flex-col md:flex-row md:space-x-4">
-                  <div className="mb-4 md:w-1/2 text-white">
-                    <label htmlFor="email">Email</label>
+                  <div className="mb-4 md:w-1/2">
+                    <label htmlFor="email" className="text-white">
+                      Email
+                    </label>
                     <input
                       type="email"
                       id="email"
@@ -107,21 +164,24 @@ const Register = () => {
                       className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
                     />
                   </div>
-                  <div className="mb-4 md:w-1/2 md:pl-2 text-white">
-                    <label htmlFor="topic">Project Topic</label>
+                  <div className="mb-4 md:w-1/2 md:pl-2">
+                    <label htmlFor="topic" className="text-white">
+                      Project Topic
+                    </label>
                     <input
                       type="text"
                       id="topic"
-                      name="topic"
-                      value={formData.topic}
+                      name="project_topic"
+                      value={formData.project_topic}
                       onChange={handleChange}
                       required
                       placeholder="What is your group project topic"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
+                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs capitalize"
                     />
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-row md:space-x-4 space-x-4">
+                  {/* Category Dropdown */}
                   <div className="mb-4 md:w-1/2">
                     <label htmlFor="category" className="text-white">
                       Category
@@ -129,35 +189,34 @@ const Register = () => {
                     <select
                       id="category"
                       name="category"
+                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
                       value={formData.category}
                       onChange={handleChange}
-                      required
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
                     >
-                      <option value="Select your category">
-                        Select your category
-                      </option>
-                      <option value="Category 1">Category 1</option>
-                      <option value="Category 2">Category 2</option>
-                      <option value="Category 3">Category 3</option>
+                      <option value="">Select a category</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
+
                   <div className="mb-4 md:w-1/2 md:pl-2">
                     <label htmlFor="groupSize" className="text-white">
                       Group Size
                     </label>
                     <select
                       id="groupSize"
-                      name="groupSize"
-                      value={formData.groupSize}
+                      name="group_size"
+                      value={formData.group_size}
                       onChange={handleChange}
                       required
                       className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
                     >
                       <option value="Select">Select</option>
-                      <option value="1-10">1-10</option>
-                      <option value="11-20">11-20</option>
-                      <option value="21-30">21-30</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
                     </select>
                   </div>
                 </div>
@@ -165,7 +224,13 @@ const Register = () => {
                   Please review your registration details before submitting
                 </p>
                 <div className="flex items-center">
-                  <input type="checkbox" id="subscribe" name="subscribe" />
+                  <input
+                    type="checkbox"
+                    id="subscribe"
+                    name="subscribe"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />
                   <label
                     htmlFor="subscribe"
                     className="ml-2 text-xs text-white"
@@ -176,7 +241,8 @@ const Register = () => {
                 </div>
                 <button
                   type="submit"
-                  className="md:w-full text-center primary text-white py-2 px-4 border rounded"
+                  disabled={!isChecked} // Disable the button if checkbox is not checked
+                  className="md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded"
                 >
                   Register Now
                 </button>
@@ -185,7 +251,15 @@ const Register = () => {
           </div>
         </div>
       </div>
-      {isModalOpen && <Confirm onClose={closeModal} />}
+      {isLoading ? (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <FaSpinner size={40} className="animate-spin text-purple text-4xl" />
+        </div>
+      ) : (
+        <>          
+          {isModalOpen && <Confirm onClose={closeModal} />}
+        </>
+      )}
     </div>
   );
 };

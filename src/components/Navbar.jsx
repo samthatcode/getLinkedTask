@@ -25,22 +25,22 @@ const Navbar = () => {
           </div>
           {/* Desktop View */}
           <div className="hidden md:flex items-baseline justify-center space-x-4 ">
-            <Link to="/" className="font-medium">
+            <Link to="/" className="font-medium text-sm hover:text-purple">
               Timeline
             </Link>
             <div className="group inline-block">
-              <a smooth="true" className="font-medium text-sm">
+              <a smooth="true" className="font-medium text-sm hover:text-purple">
                 Overview
               </a>
             </div>
             <div className="group inline-block">
-              <a href="" smooth="true" className="font-medium text-sm">
+              <a href="" smooth="true" className="font-medium text-sm hover:text-purple">
                 FAQs
               </a>
             </div>
             <Link
             to="/contact"
-            className="block px-3 py-2 rounded-md  text-sm font-medium"
+            className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple"
           >
             Contact
           </Link>
@@ -99,20 +99,20 @@ const Navbar = () => {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
             to="/"
-            className="block px-3 py-2 rounded-md  text-sm font-medium"
+            className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple"
           >
             Timeline
           </Link>
 
-          <a className="block px-3 py-2 rounded-md  text-sm font-medium">
+          <a className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple">
             Overview
           </a>
-          <a className="block px-3 py-2 rounded-md  text-sm font-medium">
+          <a className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple">
             FAQs
           </a>
           <Link
             to="/contact"
-            className="block px-3 py-2 rounded-md  text-sm font-medium"
+            className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple"
           >
             Contact
           </Link>
