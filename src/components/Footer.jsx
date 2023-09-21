@@ -2,16 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   FaInstagram,
-  FaTwitter,
   FaFacebook,
   FaLinkedin,
   FaPhone,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import x from "../assets/x.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-navyBlue p-8 md:mt-10 mt-40">
+    <footer className="bg-[#100b20] p-8 md:mt-10 mt-40">
       <div className="container mx-auto flex flex-wrap justify-center my-10">
         {/* First Footer Div */}
         <div className="w-full md:w-1/3 px-4 mb-8 md:mb-0">
@@ -50,7 +50,15 @@ const Footer = () => {
               <FaInstagram size={24} />
             </a>
             <a href="#" className="mr-4 text-white hover:text-purple">
-              <FaTwitter size={24} />
+              <img
+                src={x}
+                alt="X"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                 
+                }}
+              />
             </a>
             <a href="#" className="mr-4 text-white hover:text-purple">
               <FaFacebook size={24} />

@@ -3,12 +3,14 @@ import axios from "axios";
 import { Navbar } from "../components";
 import {
   FaInstagram,
-  FaTwitter,
+  FaPhone,
+  FaMapMarkerAlt,
   FaFacebook,
   FaLinkedin,
   FaSpinner,
 } from "react-icons/fa";
 import ConfirmContact from "./ConfirmContact";
+import x from "../assets/x.svg";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -35,13 +37,10 @@ const Contact = () => {
 
     try {
       // Make a POST request to your server
-      const response = await axios.post(
+      await axios.post(
         "https://backend.getlinked.ai/hackathon/contact-form",
         formData
       );
-
-      // Handle success (you can show a success message or redirect the user)
-      console.log("Form submitted successfully!", response.data);
 
       // Clear the form
       setFormData({
@@ -74,14 +73,20 @@ const Contact = () => {
           <p className="my-4">
             Contact <br /> Information
           </p>
-          <p className="my-4">
-            27,Alara Street <br />
-            Yaba 100012 <br />
-            Lagos State
-          </p>
-          <p className="my-4">Call Us : 07067981819</p>
+          <div className="flex items-center">
+            <FaPhone className="text-white text-sm mr-2" />
+            <p className="my-2">Call Us : 07067981819</p>
+          </div>
+          <div className="flex items-center mt-2">
+            <FaMapMarkerAlt className="text-white text-sm mr-2" />
+            <p className="my-2">
+              27, Alara Street <br />
+              Yaba 100012 <br />
+              Lagos State
+            </p>
+          </div>
           <p>
-            we are open from Monday-Friday
+            We are open from Monday-Friday
             <br /> 08:00am - 05:00pm
           </p>
           <div className="md:block hidden">
@@ -91,7 +96,14 @@ const Contact = () => {
                 <FaInstagram size={24} />
               </a>
               <a href="#" className="mr-4 text-white hover:text-purple">
-                <FaTwitter size={24} />
+                <img
+                  src={x}
+                  alt="X"
+                  style={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                />
               </a>
               <a href="#" className="mr-4 text-white hover:text-purple">
                 <FaFacebook size={24} />
@@ -177,7 +189,14 @@ const Contact = () => {
                   <FaInstagram size={24} />
                 </a>
                 <a href="#" className="mr-4 text-white hover:text-purple">
-                  <FaTwitter size={24} />
+                  <img
+                    src={x}
+                    alt="X"
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                    }}
+                  />
                 </a>
                 <a href="#" className="mr-4 text-white hover:text-purple">
                   <FaFacebook size={24} />
