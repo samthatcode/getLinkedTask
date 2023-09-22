@@ -6,12 +6,16 @@ import pinkUnder from "../assets/images/pinkUnder.png";
 import fire from "../assets/images/fire.png";
 import chain from "../assets/images/chain.png";
 import bulb from "../assets/images/bulb.png";
+import starsmall from "../assets/images/starsmall.png";
+import stars from "../assets/images/stars.png";
 
 const Hero = () => {
   return (
-    <div className="px-8 border-b border-gray-400 relative bg-transparent">
-      <div className="flex justify-center md:justify-end my-4">
-        <h1 className="capitalize text-white italic text-sm md:text-xl font-bold">
+    <div className="px-8 border-b border-gray-400 relative bg-transparent with-background">
+      <div className="flex justify-center md:justify-end my-8 ">
+      <img src={stars} alt="/" className="mr-[800px] " />
+
+        <h1 className="capitalize text-white italic text-sm md:text-xl font-bold ">
           igniting a revolution in HR innovation
         </h1>
         <img src={pinkUnder} alt="/" className="w-36 my-4 absolute top-3" />
@@ -96,14 +100,16 @@ const Hero = () => {
               <span className="text-[10px]">S</span>
             </div>
           </div>
+      <img src={starsmall} alt="/" className="ml-[400px] w-5 h-5" />
+
         </div>
 
         <div className="md:w-1/2 relative">
-          <img src={heroMan} alt="/" className="w-full" />
+          <img src={heroMan} alt="/" className="w-full with-background" />
           <img
             src={behindHeroMan}
             alt="/"
-            className="absolute top-0 left-0 w-full h-full object-cover"
+            className="absolute top-0 left-0 w-full h-full object-cover "
           />
         </div>
       </div>

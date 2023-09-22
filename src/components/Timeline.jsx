@@ -183,6 +183,7 @@ const Timeline = () => {
         </div>
       </div>
 
+      {/* Mobile */}
       <div className="flex items-center justify-center flex-wrap md:flex-col md:items-center md:hidden">
         {milestones.map((milestone, index) => (
           <div

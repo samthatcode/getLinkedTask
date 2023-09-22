@@ -66,7 +66,7 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col md:flex-row md:p-16">
+      <div className="flex flex-col md:flex-row md:p-16 with-background">
         {/* Left Side */}
         <div className="md:w-1/2 p-12 text-white">
           <h2 className="text-lg text-purple font-bold mb-4">Get in touch</h2>
@@ -90,7 +90,7 @@ const Contact = () => {
             <br /> 08:00am - 05:00pm
           </p>
           <div className="md:block hidden">
-            <p className="text-purple my-4 text-sm">Share on</p>
+            <p className="text-purple my-4 text-sm font-bold">Share on</p>
             <div className="flex">
               <a href="#" className="mr-4 text-white hover:text-purple">
                 <FaInstagram size={24} />
@@ -177,7 +177,7 @@ const Contact = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="primary bg-gradient-to-r from-pink to-indigo-700 text-white px-10 py-2 rounded"
+                className="primary bg-gradient-to-r from-pink to-indigo-700 text-white px-10 py-2 rounded "
               >
                 Submit
               </button>

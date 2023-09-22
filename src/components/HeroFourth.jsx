@@ -1,13 +1,20 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import heroFourth from "../assets/images/heroFourth.png";
+import starPurple from "../assets/images/starPurple.png";
+import stars from "../assets/images/stars.png";
 
 const HeroFourth = () => {
   return (
-    <div className="p-8 border-b border-gray-400 relative bg-transparent">
+    <div className="p-8 border-b border-gray-400 relative bg-transparent with-background">
+      <img src={starPurple} alt="/" className="ml-[135px]" />
       <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/2 md:my-20 md:p-14">
-          <img src={heroFourth} alt="/" className="w-80 h-80" />
+        <div className="md:w-1/2 md:my-20 md:p-14 relative">
+          <div className="relative">
+            <p className="gradient-text absolute top-[-39px] left-4 z-0"></p>
+            <img src={heroFourth} alt="/" className="w-80 h-80 relative z-10" />
+          </div>
+          <img src={stars} alt="/" className="ml-[500px] " />
         </div>
 
         <div className="md:w-1/2 text-white my-4">

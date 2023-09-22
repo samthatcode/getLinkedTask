@@ -16,6 +16,9 @@ export default {
         blue: "#00A3FF",
         red: "#FF0000"
       },
+      fontFamily: {
+        roboto: ['Roboto', 'sans'],
+      },
     },
   },
   plugins: [],

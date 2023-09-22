@@ -6,7 +6,7 @@ import bronzeMedal from "../assets/images/bronzeMedal.png";
 
 const HeroSix = () => {
   return (
-    <div className="px-8 border-b border-gray-400 bg-transparent">
+    <div className="px-8 border-b border-gray-400 bg-[#110b20] with-background">
       <div className="text-center md:text-middle my-5 md:mr-30">
         <h1 className="md:text-xl text-lg font-bold text-white">
           Prizes and {""} <br />

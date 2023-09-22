@@ -88,7 +88,7 @@ const Register = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col md:flex-row mx-7">
+      <div className="flex flex-col md:flex-row mx-7 with-background">
         <div className="md:w-1/2 order-first md:order-first">
           <img src={registerDesign} alt="/" className=" h-auto" />
         </div>
@@ -223,7 +223,7 @@ const Register = () => {
                 <p className="text-xs text-pink italic">
                   Please review your registration details before submitting
                 </p>
-                <div className="flex items-center">
+                <div className="flex items-center ">
                   <input
                     type="checkbox"
                     id="subscribe"
@@ -242,7 +242,7 @@ const Register = () => {
                 <button
                   type="submit"
                   disabled={!isChecked} // Disable the button if checkbox is not checked
-                  className="md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded"
+                  className="md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded "
                 >
                   Register Now
                 </button>
@@ -256,9 +256,7 @@ const Register = () => {
           <FaSpinner size={40} className="animate-spin text-purple text-4xl" />
         </div>
       ) : (
-        <>          
-          {isModalOpen && <Confirm onClose={closeModal} />}
-        </>
+        <>{isModalOpen && <Confirm onClose={closeModal} />}</>
       )}
     </div>
   );

@@ -37,6 +37,46 @@ body {
   color: #fff; 
 }
 
+.custom-border {
+  position: relative;
+}
+
+.custom-border::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2px;
+  height: calc(100% - 20px);
+  background: #D434FE;
+}
+
+.custom-border::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: calc(100% - 20px);
+  background: #D434FE;
+}
+
+.with-background {
+  /* Set the background image and its properties */
+  background-image: url('/src/assets/images/PurpleLensFlare.png');
+  background-repeat: no-repeat;
+  background-size: cover; 
+  /* background-position: center; */
+}
+
+.gradient-text {
+  /* Apply a linear gradient background */
+  background-image: linear-gradient(90deg, #ff26b9, #430980); 
+  padding: 50px; 
+  width: 13%;
+  height: 15%;
+  border-radius: 50%;
+}
 
 
 @tailwind base;
