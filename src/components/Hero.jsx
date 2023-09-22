@@ -13,13 +13,14 @@ const Hero = () => {
   return (
     <div className="px-8 border-b border-gray-400 relative bg-transparent with-background">
       <div className="flex justify-center md:justify-end my-8 ">
-      <img src={stars} alt="/" className="mr-[800px] " />
-
+      <img src={stars} alt="/" className="md:mr-[800px] hidden md:block" />
+      
         <h1 className="capitalize text-white italic text-sm md:text-xl font-bold ">
           igniting a revolution in HR innovation
         </h1>
         <img src={pinkUnder} alt="/" className="w-36 my-4 absolute top-3" />
       </div>
+      <img src={starsmall} alt="/" className="ml-[90px] md:hidden block" />
 
       <div className="flex flex-col md:flex-row md:text-left text-center">
         <div className="md:w-1/2 md:p-14 text-white">
@@ -100,7 +101,7 @@ const Hero = () => {
               <span className="text-[10px]">S</span>
             </div>
           </div>
-      <img src={starsmall} alt="/" className="ml-[400px] w-5 h-5" />
+      <img src={starsmall} alt="/" className="md:ml-[400px] w-5 h-5 " />
 
         </div>
 

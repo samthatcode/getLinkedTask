@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
-
-  //   const handleScrollTo = (id) => {
-  //     const element = document.getElementById(id);
-  //     if (element) {
-  //       element.scrollIntoView({
-  //         behavior: "smooth",
-  //       });
-  //     }
-  //   };
 
   return (
     <nav className="text-white md:w-full w-full z-10 border-b border-gray-400">
@@ -29,21 +21,28 @@ const Navbar = () => {
               Timeline
             </Link>
             <div className="group inline-block">
-              <a smooth="true" className="font-medium text-sm hover:text-purple">
+              <a
+                smooth="true"
+                className="font-medium text-sm hover:text-purple"
+              >
                 Overview
               </a>
             </div>
             <div className="group inline-block">
-              <a href="" smooth="true" className="font-medium text-sm hover:text-purple">
+              <a
+                href=""
+                smooth="true"
+                className="font-medium text-sm hover:text-purple"
+              >
                 FAQs
               </a>
             </div>
             <Link
-            to="/contact"
-            className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple"
-          >
-            Contact
-          </Link>
+              to="/contact"
+              className="block px-3 py-2 rounded-md  text-sm font-medium hover:text-purple"
+            >
+              Contact
+            </Link>
           </div>
           <div className="-mr-2 flex md:hidden">
             <button
@@ -52,36 +51,67 @@ const Navbar = () => {
               onClick={toggleMenu}
             >
               <span className="sr-only">Menu</span>
-              <svg
-                className={`${isOpen ? "hidden" : "block"} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              <svg
-                className={`${isOpen ? "block" : "hidden"} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              {isOpen ? (
+                // Close icon (three bars with the first bar half-left, the second bar full, and the last bar half-right)
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <div
+                  style={{
+                    position: "relative",
+                    width: "24px",
+                    height: "16px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0%",
+                      left: "0%",
+                      transform: "translate(-0%, -50%)",
+                      width: "50%",
+                      height: "2px",
+                      background: "white",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: "100%",
+                      height: "2px",
+                      background: "white",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: "100%",
+                      transform: "translate(-100%, -50%)",
+                      width: "50%",
+                      height: "2px",
+                      background: "white",
+                    }}
+                  ></div>
+                </div>
+              )}
             </button>
           </div>
           <div className="hidden md:block">

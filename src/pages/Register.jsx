@@ -52,6 +52,7 @@ const Register = () => {
     if (!isChecked) {
       // Display an error message and prevent form submission
       alert("Please check the box to agree with the terms and conditions.");
+      setIsLoading(false);
       return;
     }
 
@@ -242,7 +243,9 @@ const Register = () => {
                 <button
                   type="submit"
                   disabled={!isChecked} // Disable the button if checkbox is not checked
-                  className="md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded "
+                  className={`md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded ${
+                    !isChecked ? 'cursor-not-allowed' : ''
+                  }`}
                 >
                   Register Now
                 </button>
