@@ -43,7 +43,7 @@ const HeroSecond = () => {
             <img
               alt="/"
               src={starPurple}
-              className="ml-[550px] absolute top-[180px]"
+              className="md:ml-[550px] absolute md:top-[180px] top-[20px] ml-[340px] "
             />
           </div>
         </div>

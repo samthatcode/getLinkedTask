@@ -14,7 +14,7 @@ const HeroFourth = () => {
             <p className="gradient-text absolute top-[-39px] left-4 z-0"></p>
             <img src={heroFourth} alt="/" className="w-80 h-80 relative z-10" />
           </div>
-          <img src={stars} alt="/" className="ml-[500px] " />
+          <img src={stars} alt="/" className="md:ml-[500px] " />
         </div>
 
         <div className="md:w-1/2 text-white my-4">

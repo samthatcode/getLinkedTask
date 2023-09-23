@@ -8,7 +8,7 @@ const HeroThird = () => {
     <div className="p-8 border-b border-gray-400 relative bg-transparent with-background">
       <div className="flex flex-col md:flex-row ">
         <div className="md:w-1/2 md:mt-10 text-white md:p-14">
-          <img src={starsmall} alt="/" className="ml-[400px] w-5 h-5" />
+          <img src={starsmall} alt="/" className="md:ml-[400px] w-5 h-5" />
 
           <div className="text-center md:text-left">
             <h1 className="md:text-4xl text-lg font-bold">
@@ -24,7 +24,7 @@ const HeroThird = () => {
               creating solutions that can change the world, that's what we're
               all about!
             </p>
-            <img src={stars} alt="/" className="ml-[550px] w-5 h-5" />
+            <img src={stars} alt="/" className="md:ml-[550px] w-5 h-5" />
           </div>
         </div>
 
