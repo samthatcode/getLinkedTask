@@ -1,268 +1,325 @@
-import React, { useEffect, useState } from "react";
-import { Navbar } from "../components";
-import registerDesign from "../assets/images/registerDesign.png";
-import LineWalk from "../assets/images/LineWalk.png";
-import personWalk1 from "../assets/images/personWalk1.png";
-import personWalk2 from "../assets/images/personWalk2.png";
-import Confirm from "./Confirm";
-import axios from "axios";
-import { FaSpinner } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import img from "../assets/3d-graphic-designer-showing-thumbs-up.png";
+import Featther from "../components/Featther";
+import { toast, Toaster } from "sonner";
+import progress from "../assets/progressing.png";
+import congrats from "../assets/congratulation.png";
+import wink from "../assets/wink-emoji-woman.png";
+import { useNavigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    team_name: "",
-    email: "",
-    phone_number: "",
-    project_topic: "",
-    category: "",
-    group_size: "",
-  });
+const baseUrl = "https://backend.getlinked.ai";
+function Register({ setNavon }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth > 800);
+  const [team, setTeam] = useState("");
+  const [phone, setPhone] = useState(null);
+  const [email, setEmail] = useState("");
+  const [topic, setTopic] = useState("");
+  const [category, setCategory] = useState(null);
+  const [group, setGroup] = useState(null);
+  const [agreement, setAgreement] = useState(false);
+  const [done, setDone] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [categories, setCategories] = useState([]); // State to store categories
-
   useEffect(() => {
-    // Fetch categories from the backend endpoint
-    axios
-      .get("https://backend.getlinked.ai/hackathon/categories-list")
-      .then((response) => {
-        setCategories(response.data); // Set the fetched categories in state
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
+    AOS.init({
+      duration: 750,
+      offset: 0,
+      once: true,
+      anchorPlacement: "top-bottom",
+    });
+  }, []);
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await fetch(`${baseUrl}/hackathon/categories-list`);
+
+        const data = await res.json();
+
+        setCategoryList(data);
+      } catch (err) {}
+    };
+    getCategories();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleCheckboxChange = (e) => {
-    setIsChecked(e.target.checked);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const registerGroup = async (register) => {
     setIsLoading(true);
-
-    // Check if the checkbox is checked
-    if (!isChecked) {
-      // Display an error message and prevent form submission
-      alert("Please check the box to agree with the terms and conditions.");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      // Make a POST request to the server
-      await axios.post(
-        "https://backend.getlinked.ai/hackathon/registration",
-        formData
-      );
-
-      // Clear the form
-      setFormData({
-        team_name: "",
-        email: "",
-        phone_number: "",
-        project_topic: "",
-        category: "",
-        group_size: "",
+      const res = await fetch(`${baseUrl}/hackathon/registration`, {
+        method: "POST",
+        body: JSON.stringify(register),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsLoading(false);
+      if (res.ok === true) setIsLoading(false);
+      const data = await res.json();
+    } catch (err) {
+      toast.error("something went wrong try again");
     }
   };
 
-  const closeModal = () => {
-    // Close the modal
-    setIsModalOpen(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth > 800);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setNavon(true);
+    } else {
+      setNavon(false);
+    }
+  }, [isMobile, setNavon]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !team ||
+      !email ||
+      !phone ||
+      !phone ||
+      !topic ||
+      !category ||
+      !group ||
+      !agreement
+    ) {
+      toast.error("Fill in fields correctly");
+      return;
+    }
+    const newTeam = {
+      email,
+      phone_number: phone,
+      team_name: team,
+      group_size: group,
+      project_topic: topic,
+      category,
+      privacy_poclicy_accepted: agreement,
+    };
+
+    await registerGroup(newTeam);
+    window.scrollTo(0, 0);
+    setDone(true);
+    setTeam("");
+    setEmail("");
+    setPhone("");
+    setTopic("");
+    setGroup("");
+    setCategory("");
+    setAgreement(false);
   };
-
   return (
-    <div>
-      <Navbar />
-      <div className="flex flex-col md:flex-row mx-7 with-background">
-        <div className="md:w-1/2 order-first md:order-first">
-          <img src={registerDesign} alt="/" className=" h-auto" />
-        </div>
-
-        <div className="md:w-1/2">
-          <div className="max-w-xl mx-auto p-12 rounded-xl border my-16">
-            <h1 className="text-2xl font-bold my-7 text-pink">Register</h1>
-            <div className="relative flex items-center">
-              <p className="text-xs my-3 text-white">
-                Be part of this movement!
-              </p>
-              <img
-                src={personWalk1}
-                alt="Image 1"
-                className="absolute md:bottom-[20px] md:left-[197px] bottom-[30px] left-[147px] "
-              />
-              <img
-                src={personWalk2}
-                alt="Image 2"
-                className="absolute md:bottom-[20px] md:left-[180px] bottom-[30px] left-[130px] "
-              />
-              <img src={LineWalk} alt="/" className="ml-2" />
-            </div>
-
-            <h1 className="text-2xl my-5 text-white">CREATE YOUR ACCOUNT</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div className="flex flex-col md:flex-row md:space-x-4">
-                  <div className="mb-4 md:w-1/2">
-                    <label htmlFor="name" className="text-white">
-                      Team’s Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="team_name"
-                      value={formData.team_name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter the name of your group"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs capitalize"
-                    />
-                  </div>
-                  <div className="mb-4 md:w-1/2 md:pl-2">
-                    <label htmlFor="phone" className="text-white">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone_number"
-                      value={formData.phone_number}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter your phone number"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col md:flex-row md:space-x-4">
-                  <div className="mb-4 md:w-1/2">
-                    <label htmlFor="email" className="text-white">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter your email address"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
-                    />
-                  </div>
-                  <div className="mb-4 md:w-1/2 md:pl-2">
-                    <label htmlFor="topic" className="text-white">
-                      Project Topic
-                    </label>
-                    <input
-                      type="text"
-                      id="topic"
-                      name="project_topic"
-                      value={formData.project_topic}
-                      onChange={handleChange}
-                      required
-                      placeholder="What is your group project topic"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs capitalize"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-row md:flex-row md:space-x-4 space-x-4">
-                  {/* Category Dropdown */}
-                  <div className="mb-4 md:w-1/2">
-                    <label htmlFor="category" className="text-white">
-                      Category
-                    </label>
-                    <select
-                      id="category"
-                      name="category"
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
-                      value={formData.category}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select a category</option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="mb-4 md:w-1/2 md:pl-2">
-                    <label htmlFor="groupSize" className="text-white">
-                      Group Size
-                    </label>
-                    <select
-                      id="groupSize"
-                      name="group_size"
-                      value={formData.group_size}
-                      onChange={handleChange}
-                      required
-                      className="w-full border border-gray-300 rounded py-2 px-3 text-xs"
-                    >
-                      <option value="Select">Select</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>
-                  </div>
-                </div>
-                <p className="text-xs text-pink italic">
-                  Please review your registration details before submitting
-                </p>
-                <div className="flex items-center ">
-                  <input
-                    type="checkbox"
-                    id="subscribe"
-                    name="subscribe"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />
-                  <label
-                    htmlFor="subscribe"
-                    className="ml-2 text-xs text-white"
-                  >
-                    I agreed with the event terms and conditions and privacy
-                    policy
-                  </label>
-                </div>
-                <button
-                  type="submit"
-                  disabled={!isChecked} // Disable the button if checkbox is not checked
-                  className={`md:w-full text-center primary bg-gradient-to-r from-pink to-indigo-700 text-white py-2 px-4 border rounded ${
-                    !isChecked ? 'cursor-not-allowed' : ''
-                  }`}
-                >
-                  Register Now
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+    <section className="RegisterPage">
+      <p className="p md:text-[1rem] md:hidden block absolute top-[1rem] left-[1rem]">
+        Register
+      </p>
+      <div className="md:w-[50%] w-full" data-aos="fade-right">
+        <img src={img} />
       </div>
-      {isLoading ? (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <FaSpinner size={40} className="animate-spin text-purple text-4xl" />
+      <div className="form" data-aos="fade-left">
+        <form
+          className="flex flex-col md:gap-y-5 gap-y-7 h-auto  md:p-0 px-4"
+          onSubmit={handleSubmit}
+        >
+          <p className="p md:text-[1rem] md:block hidden">Register</p>
+          <p className="text-[1rem] md:text-left text-center flex justify-start gap-x-2 mt-0">
+            Be part of this movement
+            <span className="text-secondary flex flex-col items-start w-fit  p-0 mt-[-0.3rem] relative">
+              <img src={progress} className="w-[2.4rem] ml-[40%]" />
+              <p className="absolute bottom-[0] m-0 p-0">
+                ....................
+              </p>
+            </span>
+          </p>
+          <p className="text-[#ffffff] md:text-[1.5rem] md:text-left text-center text-[1rem] mt-[-1rem] font-normal">
+            CREATE YOUR ACCOUNT
+          </p>
+
+          <div className="w-full flex md:justify-between md:flex-row flex-col md:gap-x-2 gap-y-2">
+            <span className="flex flex-col gap-y-1 md:w-[47%] w-full">
+              <label>Team's Name</label>
+              <input
+                type="text"
+                placeholder="Enter the name of your group"
+                className="bg-transparent pl-2 h-[2.94rem] border-2 border-white rounded-md w-full nfocus:border-secondary outline-none placeholder:text-center placeholder:text-[0.8rem]"
+                onChange={(e) => setTeam(e.target.value)}
+                value={team}
+              />
+            </span>
+            <span className="flex flex-col gap-y-1 md:w-[47%] w-full">
+              <label>Phone</label>
+              <input
+                type="tel"
+                placeholder="Enter your phone number"
+                className="bg-transparent pl-2 h-[2.94rem] border-2 border-white rounded-md w-full focus:border-secondary outline-none placeholder:text-center placeholder:text-[0.8rem]"
+                onChange={(e) => setPhone(e.target.value)}
+                value={phone}
+              />
+            </span>
+          </div>
+          <div className="w-full flex md:justify-between md:flex-row flex-col md:gap-x-2 gap-y-2">
+            <span className="flex flex-col gap-y-1 md:w-[47%] w-full">
+              <label>Email</label>
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="bg-transparent pl-2 h-[2.94rem] border-2 border-white rounded-md w-full focus:border-secondary outline-none placeholder:text-center placeholder:text-[0.8rem]"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+            </span>
+            <span className="flex flex-col gap-y-1 md:w-[47%] w-full">
+              <label>Project Topic</label>
+              <input
+                type="text"
+                placeholder="What is your group project topic"
+                className="bg-transparent pl-2 h-[2.94rem] border-2 border-white rounded-md w-full focus:border-secondary outline-none placeholder:text-center placeholder:text-[0.8rem]"
+                onChange={(e) => setTopic(e.target.value)}
+                value={topic}
+              />
+            </span>
+          </div>
+          <div className="w-full flex justify-between items-center  gap-x-2">
+            <span className="flex flex-col gap-y-1 w-[47%]">
+              <label>Category</label>
+              <select
+                type="text"
+                className="bg-transparent  text-[#ffffff]  h-[2.94rem] border-2 border-white rounded-md w-full focus:border-secondary outline-none "
+                onChange={(e) => setCategory(Number(e.target.value))}
+                value={category}
+              >
+                <option
+                  value=""
+                  disabled
+                  selected
+                  hidden
+                  className="text-left md:text-[0.8rem] text-[0.5rem]"
+                >
+                  Select your category
+                </option>
+
+                {categoryList.map((category, i) => (
+                  <option key={i} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </span>
+            <span className="flex flex-col gap-y-1 w-[47%] ">
+              <label>Group Size</label>
+              <select
+                type="text"
+                className="bg-transparent t text-[#ffffff]  h-[2.94rem] border-2 border-white rounded-md w-full focus:border-secondary outline-none "
+                onChange={(e) => setGroup(Number(e.target.value))}
+                value={group}
+              >
+                <option
+                  value=""
+                  disabled
+                  selected
+                  hidden
+                  className="text-left md:text-[0.8rem] text-[0.5rem]"
+                >
+                  Select
+                </option>
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                  <option value={num} key={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+            </span>
+          </div>
+          <i className="text-[#FF26B9] my-4 md:text-[0.75rem] text-[0.5625rem] md:text-left text-center">
+            Please review your registration details before submitting
+          </i>
+          <div className="flex gap-x-1 items-center md:justify-start justify-center w-full ">
+            <input
+              type="checkbox"
+              className=" accent-secondary w-[1rem] h-[1rem]"
+              onChange={(e) => setAgreement(e.target.checked)}
+              checked={agreement}
+            />
+            <p className="md:text-[0.8rem] text-[0.5rem] ">
+              I agreed with the event terms and conditions and privacy policy
+            </p>
+          </div>
+          <div className="w-full flex justify-center">
+            <button className="h-[3rem] w-[8rem] md:w-full flex items-center justify-center bg-gradient-to-r from-[#FE34B9] to-primary rounded-lg mt-[2rem]">
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+      {isLoading && (
+        <div className="laoderCont">
+          <div className="loader"></div>
         </div>
-      ) : (
-        <>{isModalOpen && <Confirm onClose={closeModal} />}</>
       )}
+
+      {done && <Success />}
+      <Featther type={"regTop"} />
+      <Featther type={"regBottom"} />
+      <Toaster position="top-right" expand={false} richColors />
+    </section>
+  );
+}
+
+export default Register;
+
+const Success = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 750,
+      offset: 0,
+      once: true,
+      anchorPlacement: "top-bottom",
+    });
+  }, []);
+  const navigate = useNavigate();
+  return (
+    <div className="absolute w-screen h-full z-50 bg-[#150e28e2] top-0 left-0 flex justify-center pt-[4rem] md:pt-[6rem] ">
+      <div
+        className="md:w-[34rem] w-[90%] md:h-[30rem] h-[80vh] border-2 border-secondary rounded-md text-center flex flex-col items-center gap-y-5 px-4"
+        data-aos="fade-down"
+      >
+        <img src={congrats} className="md:w-[50%]" data-aos="fade-up" />
+        <p
+          className="text-[#ffffff] md:text-[1.5rem] md:text-left text-center text-[1rem] mt-[-1rem] font-normal uppercase"
+          data-aos="fade-down"
+        >
+          Congratulation
+        </p>
+        <p
+          className="text-[#ffffff] md:text-[1.5rem] md:text-left text-center text-[1rem] mt-[-1rem] font-normal uppercase"
+          data-aos="fade-down"
+        >
+          you have successfully Registered!
+        </p>
+        <p data-aos="fade-down">
+          Yes, it was easy and you did it!
+          <span className="flex items-center md:gap-x-2">
+            check your mail box for next step
+            <img src={wink} data-aos="fade-left" />
+          </span>
+        </p>
+        <button
+          className="h-[3rem]  w-full flex items-center justify-center bg-gradient-to-r from-[#FE34B9] to-primary rounded-lg mt-[2rem]"
+          onClick={() => navigate("/")}
+        >
+          Back
+        </button>
+      </div>
     </div>
   );
 };
-
-export default Register;

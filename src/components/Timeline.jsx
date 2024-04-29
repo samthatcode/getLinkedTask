@@ -1,217 +1,672 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import Typography from "@mui/material/Typography";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import star from "../assets/star.svg";
+import grayStar from "../assets/grey_star.svg";
+import purple from "../assets/purple_star.svg";
 
-const milestones = [
-  {
-    date: "November 18, 2023",
-    title: "Hackathon Announcement",
-    description:
-      "The getlinked tech hackathon 1.0 is formally announced to the general public and teams begin to get ready to register",
-  },
-  {
-    date: "November 18, 2023",
-    title: "Teams Registration begins",
-    description:
-      "Interested teams can now show their interest in the getlinked tech hackathon 1.0 2023 by proceeding to register",
-  },
-  {
-    date: "November 18, 2023",
-    title: "Teams Registration ends",
-    description:
-      "Interested Participants are no longer allowed to  tech hackathon 1.0 2023 by proceeding to register",
-  },
-  {
-    date: "November 18, 2023",
-    title: "Announcement of the accepted teams and ideas",
-    description:
-      "All teams whose idea has been accepted into getlinked tech hackathon 1.0 2023 are formally announced",
-  },
-  {
-    date: "November 18, 2023",
-    title: "Getlinked Hackathon 1.0 Officially Begins",
-    description:
-      "Accepted teams can now proceed to build their groundbreaking skill-driven solutions",
-  },
-  {
-    date: "November 18, 2023",
-    title: "Demo Day",
-    description:
-      "Teams get the opportunity to pitch their projects to judges. The winner of the hackathon will also be announced on this day",
-  },
-];
-
-const Timeline = () => {
+function TimeLine() {
+  useEffect(() => {
+    AOS.init({
+      duration: 750,
+      offset: 0,
+      once: true,
+      anchorPlacement: "top-bottom",
+    });
+  }, []);
   return (
-    <div className="px-8 border-b border-gray-400 bg-transparent">
-      <div className="flex flex-col items-center text-center my-4">
-        <h1 className="capitalize text-white text-center text-xl font-bold">
-          timeline
-        </h1>
-        <p className="text-white md:text-base text-sm">
-          Here is the breakdown of the time <br /> we anticipate using for the
-          upcoming event.
-        </p>
-      </div>
-
-      <div className="items-center justify-center flex-wrap md:flex-col md:items-center hidden md:block">
-        <div className="flex flex-col items-center">
-          <div className="flex items-center my-10 mx-30">
-            <div className="text-right md:w-1/2">
-              <p className=" text-purple">Hackathon Announcement</p>
-              <div className="text-white">
+    <section className="py-[2rem] pt-[4rem] relative" id="timeline">
+      <h1 className="text-center timeP" data-aos="fade-down">
+        Timeline
+      </h1>
+      <p className="text-center mt-[2rem]" data-aos="fade-down">
+        Here is the breakdown of the time we anticipate <br />
+        using for the upcoming event.
+      </p>
+      <div className="md:block hidden">
+        <Timeline position="alternate-reverse">
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-left"
+            >
+              November 18, 2023
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                1
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-right">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Hackathon Announcement
+              </Typography>
+              <Typography>
                 The getlinked tech hackathon 1.0 is formally announced to the
                 general public and teams begin to get ready to register
-              </div>
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
-                1
-              </div>
-            </div>
-            <div className="font-bold text-lg text-purple text-left">
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-right"
+            >
               November 18, 2023
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center ml-36">
-          <div className="flex items-center my-10 mx-30">
-            <div className="font-bold text-lg text-purple text-right md:w-1/2">
-              November 18, 2023
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
                 2
-              </div>
-            </div>
-            <div className="text-left md:w-1/2">
-              <p className=" text-purple">Teams Registration begins</p>
-              <div className="text-white">
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Teams Registration begins
+              </Typography>
+              <Typography>
+                {" "}
                 Interested teams can now show their interest in the getlinked
                 tech hackathon 1.0 2023 by proceeding to register
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <div className="flex items-center my-10 mx-30">
-            <div className="text-right md:w-1/2">
-              <p className=" text-purple">Teams Registration ends</p>
-              <div className="text-white">
-                Interested Participants are no longer Allowed to register
-              </div>
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-left"
+            >
+              November 18, 2023
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
                 3
-              </div>
-            </div>
-            <div className="font-bold text-lg text-purple text-left">
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-right">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Teams Registration ends
+              </Typography>
+              <Typography>
+                Interested Participants are no longer Allowed to register
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              // color="text.secondary"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-right"
+            >
               November 18, 2023
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center ml-36">
-          <div className="flex items-center my-10 mx-30">
-            <div className="font-bold text-lg text-purple text-right md:w-1/2">
-              November 18, 2023
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
                 4
-              </div>
-            </div>
-            <div className="text-left md:w-1/2">
-              <p className=" text-purple">
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
                 Announcement of the accepted teams and ideas
-              </p>
-              <div className="text-white">
+              </Typography>
+              <Typography>
+                {" "}
                 All teams whom idea has been accepted into getlinked tech
                 hackathon 1.0 2023 are formally announced
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <div className="flex items-center my-10 mx-30">
-            <div className="text-right md:w-1/2">
-              <p className=" text-purple">
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              // color="text.secondary"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-left"
+            >
+              November 18, 2023
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                5
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-right">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
                 Getlinked Hackathon 1.0 Offically Begins
-              </p>
-              <div className="text-white">
+              </Typography>
+              <Typography>
                 Accepted teams can now proceed to build their ground breaking
                 skill driven solutions
-              </div>
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
-                5
-              </div>
-            </div>
-            <div className="font-bold text-lg text-purple text-left">
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="body2"
+              // color="text.secondary"
+              className="title"
+              style={{ fontWeight: "bolder" }}
+              data-aos="fade-right"
+            >
               November 18, 2023
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center ml-36 mb-10">
-          <div className="flex items-center my-10 mx-30">
-            <div className="font-bold text-lg text-purple text-right md:w-1/2">
-              November 18, 2023
-            </div>
-            <div className="relative">
-              <div className="milestone-line bg-purple"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute right-0 left-14 mt-1">
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
                 6
-              </div>
-            </div>
-            <div className="text-left md:w-1/2">
-              <p className=" text-purple">Demo Day</p>
-              <div className="text-white">
+              </TimelineDot>
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Demo Day
+              </Typography>
+              <Typography>
                 Teams get the opportunity to pitch their projects to judges. The
                 winner of the hackathon will also be announced on this day
-              </div>
-            </div>
-          </div>
-        </div>
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+      </div>
+      <div className="md:hidden block">
+        <Timeline
+          position="right"
+          sx={{
+            [`& .${timelineItemClasses.root}:before`]: {
+              flex: 0,
+              padding: 0,
+            },
+          }}
+          style={{ overflowX: "hidden" }}
+        >
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                1
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Hackathon Announcement
+              </Typography>
+              <Typography>
+                The getlinked tech hackathon 1.0 is formally announced to the
+                general public and teams begin to get ready to register
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                2
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Teams Registration begins
+              </Typography>
+              <Typography>
+                Interested teams can now show their interest in the getlinked
+                tech hackathon 1.0 2023 by proceeding to register
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                3
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Teams Registration ends
+              </Typography>
+              <Typography>
+                Interested Participants are no longer Allowed to register
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                4
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Announcement of the accepted teams and ideas
+              </Typography>
+              <Typography>
+                All teams whom idea has been accepted into getlinked tech
+                hackathon 1.0 2023 are formally announced
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                5
+              </TimelineDot>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Getlinked Hackathon 1.0 Offically Begins
+              </Typography>
+              <Typography>
+                Accepted teams can now proceed to build their ground breaking
+                skill driven solutions
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector
+                style={{
+                  height: "5rem",
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                }}
+                data-aos="fade-down"
+              />
+              <TimelineDot
+                style={{
+                  background:
+                    "linear-gradient(270deg, #903AFF 0%, #D434FE 100%)",
+                  backgroundSize: "cover",
+                }}
+                className="w-[3.3125rem] h-[3.3125rem] rounded-full text-[1.25rem] font-bold bg-secondary flex justify-center items-center"
+                data-aos="fade-down"
+              >
+                6
+              </TimelineDot>
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "12px", px: 2 }} data-aos="fade-left">
+              <Typography
+                variant="h6"
+                component="span"
+                className="title"
+                style={{ fontWeight: "bolder" }}
+              >
+                Demo Day
+              </Typography>
+              <Typography>
+                Teams get the opportunity to pitch their projects to judges. The
+                winner of the hackathon will also be announced on this day
+              </Typography>
+              <Typography className="title" style={{ fontWeight: "bolder" }}>
+                November 18, 2023
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
       </div>
 
-      {/* Mobile */}
-      <div className="flex items-center justify-center flex-wrap md:flex-col md:items-center md:hidden">
-        {milestones.map((milestone, index) => (
-          <div
-            key={index}
-            className={`flex items-center my-10 mx-30 ${
-              index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-            }`}
-          >
-            <div className="relative">
-              <div className="milestone-line bg-purple absolute left-[-58px] top-[-60px]"></div>
-              <div className="milestone-circle bg-gradient-to-r from-[#c63ffe] to-[#9d38fe] absolute flex items-center justify-center top-[43px]  rounded-full">
-                {index + 1}
-              </div>
-            </div>
-            <div className="text-purple w-full ml-10">
-              <p className="font-medium">{milestone.title}</p>
-              <div className="text-white text-sm my-2">
-                {milestone.description}
-              </div>
-              <div className="font-medium text-base text-purple">
-                {milestone.date}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      <img
+        src={purple}
+        className="absolute top-[8rem] md:block hidden left-[17rem]  md:w-[1.625rem] md:h-[2rem] w-[0.625rem] animate-pulse h-[0.75rem]"
+      />
+      <img
+        src={star}
+        className="absolute top-[15rem] md:block hidden right-[10rem]  md:w-[1.625rem] md:h-[2rem] w-[0.625rem] animate-pulse h-[0.75rem]"
+      />
+      <img
+        src={grayStar}
+        className="absolute top-[55rem] md:block hidden left-[10rem]  md:w-[1.625rem] md:h-[2rem] w-[0.625rem] animate-pulse h-[0.75rem]"
+      />
+    </section>
   );
-};
+}
 
-export default Timeline;
+export default TimeLine;

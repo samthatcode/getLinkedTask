@@ -1,223 +1,173 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Navbar } from "../components";
-import {
-  FaInstagram,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaFacebook,
-  FaLinkedin,
-  FaSpinner,
-} from "react-icons/fa";
-import ConfirmContact from "./ConfirmContact";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Featther from "../components/Featther";
+import ig from "../assets/ri_instagram.svg";
 import x from "../assets/x.svg";
-
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    first_name: "",
-    email: "",
-    topic: "",
-    message: "",
-  });
+import linkedIn from "../assets/ri_linkedin-fill.svg";
+import Button from "../components/Button";
+import back from "../assets/back.svg";
+import { toast, Toaster } from "sonner";
+import AOS from "aos";
+import "aos/dist/aos.css";
+const baseUrl = "https://backend.getlinked.ai";
+function Contact({ setNavon }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth > 800);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  const navigate = useNavigate();
+  useEffect(() => {
+    AOS.init({
+      duration: 750,
+      offset: 0,
+      once: true,
+      anchorPlacement: "top-bottom",
     });
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  }, []);
+  const contactMe = async (newContact) => {
     setIsLoading(true);
-
     try {
-      // Make a POST request to your server
-      await axios.post(
-        "https://backend.getlinked.ai/hackathon/contact-form",
-        formData
-      );
-
-      // Clear the form
-      setFormData({
-        first_name: "",
-        email: "",
-        topic: "",
-        message: "",
+      const res = await fetch(`${baseUrl}/hackathon/contact-form`, {
+        method: "POST",
+        body: JSON.stringify(newContact),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      setIsModalOpen(true);
-    } catch (error) {
-      // Handle error (you can display an error message)
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsLoading(false);
+
+      if (res.ok === true) setIsLoading(false);
+      const data = await res.json();
+      toast.success("Message Sent😉");
+    } catch (err) {
+      toast.error("something went wrong try again");
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !message) {
+      toast.error("Fill in fields correctly");
+      return;
+    }
+    const newContact = {
+      email,
+      first_name: name,
+      message,
+    };
 
-  const closeModal = () => {
-    // Close the modal
-    setIsModalOpen(false);
+    await contactMe(newContact);
+    setName("");
+    setEmail("");
+    setMessage("");
   };
 
-  return (
-    <>
-      <Navbar />
-      <div className="flex flex-col md:flex-row md:p-16 with-background">
-        {/* Left Side */}
-        <div className="md:w-1/2 p-12 text-white">
-          <h2 className="text-lg text-purple font-bold mb-4">Get in touch</h2>
-          <p className="my-4">
-            Contact <br /> Information
-          </p>
-          <div className="flex items-center">
-            <FaPhone className="text-white text-sm mr-2" />
-            <p className="my-2">Call Us : 07067981819</p>
-          </div>
-          <div className="flex items-center mt-2">
-            <FaMapMarkerAlt className="text-white text-sm mr-2" />
-            <p className="my-2">
-              27, Alara Street <br />
-              Yaba 100012 <br />
-              Lagos State
-            </p>
-          </div>
-          <p>
-            We are open from Monday-Friday
-            <br /> 08:00am - 05:00pm
-          </p>
-          <div className="md:block hidden">
-            <p className="text-purple my-4 text-sm font-bold">Share on</p>
-            <div className="flex">
-              <a href="#" className="mr-4 text-white hover:text-purple">
-                <FaInstagram size={24} />
-              </a>
-              <a href="#" className="mr-4 text-white hover:text-purple">
-                <img
-                  src={x}
-                  alt="X"
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                  }}
-                />
-              </a>
-              <a href="#" className="mr-4 text-white hover:text-purple">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-white hover:text-purple">
-                <FaLinkedin size={24} />
-              </a>
-            </div>
-          </div>
-        </div>
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth > 800);
+    };
 
-        {/* Right Side */}
-        <div className="md:w-1/2 p-12 rounded-md bg-[#1c152e] ">
-          <h2 className="text-lg font-medium my-2 text-purple">
-            Question or Need Assistance?
-          </h2>
-          <h2 className="text-lg font-medium text-purple mb-6">
-            Let us Know about it!
-          </h2>
-          <p className="md:hidden block text-white">
-            Email us below to any question related to our event
-          </p>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <input
-                type="text"
-                id="name"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleInputChange}
-                placeholder="First Name"
-                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34]  text-white"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                id="topic"
-                name="topic"
-                value={formData.topic}
-                onChange={handleInputChange}
-                placeholder="Topic"
-                className="md:hidden block w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34]  text-white capitalize"
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Mail"
-                className="w-full border rounded-md px-3 py-2 outline-none my-4 bg-[#231c34] text-white"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                placeholder="Message"
-                rows="4"
-                className="w-full border rounded-md px-3 py-2 outline-none resize-none bg-[#231c34] text-white capitalize"
-                required
-              ></textarea>
-            </div>
-            <div className="text-center">
-              <button
-                type="submit"
-                className="primary bg-gradient-to-r from-pink to-indigo-700 text-white px-10 py-2 rounded "
-              >
-                Submit
-              </button>
-            </div>
-            <div className="md:hidden block text-center my-8">
-              <p className="text-purple my-4 text-sm">Share on</p>
-              <div className="flex justify-center">
-                <a href="#" className="mr-4 text-white hover:text-purple">
-                  <FaInstagram size={24} />
-                </a>
-                <a href="#" className="mr-4 text-white hover:text-purple">
-                  <img
-                    src={x}
-                    alt="X"
-                    style={{
-                      width: "28px",
-                      height: "28px",
-                    }}
-                  />
-                </a>
-                <a href="#" className="mr-4 text-white hover:text-purple">
-                  <FaFacebook size={24} />
-                </a>
-                <a href="#" className="text-white hover:text-purple">
-                  <FaLinkedin size={24} />
-                </a>
-              </div>
-            </div>
-          </form>
-        </div>
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setNavon(true);
+    } else {
+      setNavon(false);
+    }
+  }, [isMobile, setNavon]);
+  return (
+    <section className="login">
+      <img
+        src={back}
+        className="md:hidden block absolute w-[2.5rem] h-[2.5rem] cursor-pointer top-[1rem] left-[1rem]"
+        onClick={() => navigate("/")}
+      />
+      <div
+        className="md:w-[50%] w-full md:flex hidden flex-col gap-y-3 md:text-left text-center"
+        data-aos="fade-left"
+      >
+        <p className="p md:text-2xl">Get in touch</p>
+        <p className="text-[1rem] ">
+          Contact
+          <br />
+          Information
+        </p>
+        <p className="text-[1rem] ">
+          VersionControlDev str,
+          <br />
+          Earth 717774
+          <br />
+          Planet
+        </p>
+        <p className="text-[1rem] ">Call Us : 07063305295</p>
+        <p className="text-[1rem] ">
+          we are open from Monday-Friday <br />
+          08:00am - 05:00pm
+        </p>
+        <p className="text-secondary">Share on</p>
+        <span className="flex gap-x-3">
+          <img src={x} />
+          <img src={ig} />
+          <img src={linkedIn} />
+        </span>
       </div>
-      {isLoading ? (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <FaSpinner size={40} className="animate-spin text-purple text-4xl" />
+      <div className="form" data-aos="fade-right">
+        <form
+          className="flex flex-col md:gap-y-5 gap-y-7 h-auto  items-center"
+          onSubmit={handleSubmit}
+        >
+          <p className="p md:text-[1rem] text-left">
+            Questions or need assistance? <br />
+            Let us know about it!
+          </p>
+          <input
+            type="text"
+            className="bg-transparent h-[2.94rem] border-2 border-white rounded-md w-full pl-4 focus:border-secondary outline-none"
+            placeholder="First Name"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+          <input
+            type="email"
+            className="bg-transparent h-[2.94rem] border-2 border-white rounded-md w-full pl-4 focus:border-secondary outline-none"
+            placeholder="Mail"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <textarea
+            className="bg-transparent md:min-h-[7rem] resize-none min-h-[12rem] border-2 border-white rounded-md w-full pl-4 focus:border-secondary outline-none"
+            placeholder="Message"
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+          />
+          <Button>Submit</Button>
+        </form>
+      </div>
+      <div className="md:hidden flex flex-col w-full items-center gap-y-3 mb-3">
+        <p className="text-secondary">Share on</p>
+        <span className="flex gap-x-3">
+          <img src={x} />
+          <img src={ig} />
+          <img src={linkedIn} />
+        </span>
+      </div>
+      <Featther type={"regTop"} />
+      <Featther type={"regBottom"} />
+      <Toaster position="bottom-right" expand={false} richColors />
+      {isLoading && (
+        <div className="laoderCont">
+          <div className="loader"></div>
         </div>
-      ) : (
-        <>{isModalOpen && <ConfirmContact onClose={closeModal} />}</>
       )}
-    </>
+    </section>
   );
-};
+}
 
 export default Contact;
